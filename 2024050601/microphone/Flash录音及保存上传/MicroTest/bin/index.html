@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>语音识别</title>
+	<meta name="description" content="" />
+	<script type="text/javascript" src="js/swfobject.js"></script>
+	<script type="text/javascript" src="js/Recorder.js?v=3"></script>
+	
+	<style>
+		html, body { height:100%; overflow:hidden; }
+		body { margin:0; }
+		#container{margin:0 auto;}
+		.flashhide{width:1px;height:1px;overflow:hidden;}
+		.wrapper{width:500px;margin:0 auto;}
+		#progress{background:#eee;display:inline-block;text-align:center;width:100px;line-height:24px;height:24px;overflow:hidden;position:absolute;}
+		#progress #progtext{position:relative;z-index:1;}
+		#progress #voice{position:absolute;width:100%;height:100%;background:#aad;left:0;bottom:-24px;}
+		#progress #prog{position:absolute;width:100%;height:100%;background:#aad;left:-100px;top:0;}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="altContent">
+			<h1>MyTest</h1>
+			<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+		</div>
+	</div>
+	<div class="wrapper">
+		<input type="text" name="keyword" id="keyword" />
+		<input type="button" name="" id="handleID" value="按住说话" />
+		<label id="progress">
+			<span id="progtext"> </span>
+			<span id="voice"></span>
+			<span id="prog"></span>
+		</label>
+	</div>
+	<script type="text/javascript">
+		var binds={};
+		//binds['debug']=true;
+		binds['containerid']="container";
+		binds['swfurl']="recorder.swf?v=13";
+		binds['reciveURL']='recorder.php';
+		binds['onRecording']=function(progress,alevel){
+				console.log(progress,alevel);
+				document.getElementById('progtext').innerHTML=progress;
+				document.getElementById('voice').style.bottom=24*(alevel/100-1)+'px';
+			};
+		binds['onPlaying']=function(progress){
+				document.getElementById('prog').style.left = 100*(progress-1) + 'px';
+			};
+		binds['onResult']=function(rst,xml){
+				//alert('识别结果:'+rst);
+				document.getElementById('keyword').value=rst;
+			};
+		binds['onEmpty']=function(){
+				document.getElementById('progtext').innerHTML='';
+			};
+		binds['onStopPlay']=function(){
+			document.getElementById('prog').style.left = '-100px';
+		};
+		binds['onClear']=function(){
+			document.getElementById('progtext').innerHTML='0';
+		};
+		binds['onStop']=function(){
+			document.getElementById('voice').style.bottom='-24px';
+		};
+		var recorder=new Recorder("altContent",'MyTest',binds);
+		var button=document.getElementById("handleID");
+		button.onmousedown=function(){
+			recorder.clear();
+			recorder.start();
+			document.getElementById('progtext').innerHTML='请开始说话';
+		};
+		button.onmouseup=function(){
+			recorder.stop();
+			recorder.send();
+		};
+		var rec=document.getElementById('progress');
+		rec.onclick=function(){
+			if(recorder.isPlaying){
+				recorder.stopPlay();
+			}else{
+				recorder.play();
+			}
+		};
+	</script>
+</body>
+</html>
