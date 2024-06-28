@@ -17,6 +17,12 @@
 		private var m_nObjectScore:int;			//记录目标分数
 		public function myStage()
 		{
+			btnPlay.addEventListener(MouseEvent.CLICK, playGame);
+			stop();
+		}
+		public function playGame(e:MouseEvent):void
+		{	
+			gotoAndPlay(2);
 			stop();
 			m_aObjects = new Array(12);
 			
