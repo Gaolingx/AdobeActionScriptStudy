@@ -16,6 +16,7 @@
 		private var m_oldPx:Number;
 		private var m_oldPy:Number;
 		private var m_moveLen:Number;
+		private var m_sendHookSoundName:String = "Sound_SendHook.mp3";
 		
 		public function Miner()
 		{
@@ -32,6 +33,7 @@
 			
 			
 	    }
+		
 		public function setState( sta:int )
 		{
 			m_nState = sta;
@@ -130,6 +132,7 @@
 			if( this.m_nState != MINER_STATE_NORMAL )
 				return;
 			setState( MINER_STATE_SEND );
+			myStage.playSound(m_sendHookSoundName, 0, 1);
 		}
 		public function getObject( obj:myObject ):Boolean
 		{

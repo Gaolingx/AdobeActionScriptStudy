@@ -5,6 +5,10 @@
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.net.URLRequest;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.events.Event;
 	
 	public class myStage extends MovieClip
 	{
@@ -19,6 +23,11 @@
 		{
 			btnPlay.addEventListener(MouseEvent.CLICK, playGame);
 			stop();
+		}
+		public static function playSound(path:String, length:Number, times:Number):void
+		{
+			var snd:Sound = new Sound(new URLRequest(path));
+			snd.play(length, times);
 		}
 		public function playGame(e:MouseEvent):void
 		{	
