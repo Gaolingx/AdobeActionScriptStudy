@@ -19,6 +19,8 @@
 		private var m_nTime:int;				//记录当前时间
 		private var m_nScore:int;				//记录当前分数
 		private var m_nObjectScore:int;			//记录目标分数
+		private var m_getGoldSoundName:String = "Sound_GetGold.mp3";
+
 		public function myStage()
 		{
 			btnPlay.addEventListener(MouseEvent.CLICK, playGame);
@@ -96,6 +98,7 @@
 			if( T_Miner.Logic(getObject) == true )
 			{
 				m_nScore = m_nScore + m_aObjects[m_nIndex].getScore();
+				myStage.playSound(m_getGoldSoundName, 0, 1);
 				this.removeChild( m_aObjects[m_nIndex] );
 				m_aObjects[m_nIndex] = null;
 				m_nIndex = -1;
